@@ -21,9 +21,12 @@ CLIENT_SECRET = os.getenv("CLIENT_SECRET")
 EMAIL         = os.getenv("EMAIL")
 ROLL_NO       = os.getenv("ROLL_NO")
 ACCESS_CODE   = os.getenv("ACCESS_CODE")
+ACCESS_TOKEN  = os.getenv("ACCESS_TOKEN", "").strip()
 
 
 def _missing_env() -> list[str]:
+    if ACCESS_TOKEN:
+        return []
     missing = []
     for key, val in [
         ("CLIENT_ID", CLIENT_ID),
@@ -40,7 +43,10 @@ def _missing_env() -> list[str]:
 # ── Auth ──────────────────────────────────────────────────────────────────────
 
 def get_auth_token() -> str:
-    """Obtain Bearer token from evaluation server."""
+    """Obtain Bearer token: use ACCESS_TOKEN from .env if set, else POST /auth."""
+    if ACCESS_TOKEN:
+        print("[auth] Using ACCESS_TOKEN from .env")
+        return ACCESS_TOKEN
     payload = {
         "email": EMAIL,
         "name": "t vinay koushik",

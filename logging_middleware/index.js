@@ -6,7 +6,7 @@
 
 const axios = require('axios');
 
-const BASE_URL = 'http://20.207.122.201/evaluation-service';
+const BASE_URL = process.env.BASE_URL || 'http://20.207.122.201/evaluation-service';
 
 // Valid enums — enforced at call time
 const VALID_STACK   = ['backend', 'frontend'];

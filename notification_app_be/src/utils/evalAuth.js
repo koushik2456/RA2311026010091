@@ -5,6 +5,9 @@ const config = require('../config');
  * Obtain Bearer token for the evaluation logging API.
  */
 async function getEvaluationToken() {
+    if (config.accessToken) {
+        return config.accessToken;
+    }
     const payload = {
         email: config.email,
         name: 't vinay koushik',

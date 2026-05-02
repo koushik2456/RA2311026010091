@@ -27,11 +27,14 @@ CLIENT_SECRET = os.getenv("CLIENT_SECRET")
 EMAIL         = os.getenv("EMAIL")
 ROLL_NO       = os.getenv("ROLL_NO")
 ACCESS_CODE   = os.getenv("ACCESS_CODE")
+ACCESS_TOKEN  = os.getenv("ACCESS_TOKEN", "").strip()
 
 WEIGHT = {"Placement": 3, "Result": 2, "Event": 1}
 
 
 def get_auth_token() -> str:
+    if ACCESS_TOKEN:
+        return ACCESS_TOKEN
     payload = {
         "email": EMAIL,
         "name": "t vinay koushik",
@@ -95,7 +98,7 @@ def top_n_notifications(notifications: list, n: int = 10) -> list:
 
 
 def main():
-    missing = [k for k, v in [
+    missing = [] if ACCESS_TOKEN else [k for k, v in [
         ("CLIENT_ID", CLIENT_ID),
         ("CLIENT_SECRET", CLIENT_SECRET),
         ("EMAIL", EMAIL),
@@ -108,7 +111,8 @@ def main():
         sys.exit(1)
 
     try:
-        print("Fetching auth token...")
+        if not ACCESS_TOKEN:
+            print("Fetching auth token...")
         token = get_auth_token()
 
         print("Fetching notifications...")

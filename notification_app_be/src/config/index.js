@@ -10,6 +10,8 @@ function env(name, fallback) {
 module.exports = {
     port: parseInt(env('PORT', '3000'), 10),
     baseUrl: env('BASE_URL', 'http://20.207.122.201/evaluation-service'),
+    /** If set, used for logging + API calls instead of POST /auth */
+    accessToken: (process.env.ACCESS_TOKEN || '').trim() || undefined,
     clientId: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
     email: process.env.EMAIL,
