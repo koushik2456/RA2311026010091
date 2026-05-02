@@ -8,8 +8,11 @@ const axios = require('axios');
 
 /** Read each call so .env is loaded before first Log() (lazy, not at require() time). */
 function evaluationBaseUrl() {
-    const u = (process.env.BASE_URL || 'http://20.207.122.201/evaluation-service').trim();
-    return u.replace(/\/$/, '');
+    let u = (process.env.BASE_URL || 'http://20.207.122.201/evaluation-service').trim().replace(/\/+$/, '');
+    if (!/\/evaluation-service$/i.test(u)) {
+        u = `${u}/evaluation-service`;
+    }
+    return u;
 }
 
 // Valid enums — enforced at call time
@@ -57,7 +60,8 @@ async function Log(stack, level, pkg, message) {
         return response.data;
     } catch (err) {
         // Fail silently in production — logging must never crash the app
-        console.error('[LogMiddleware] Failed to post log:', err.message);
+        const url = `${evaluationBaseUrl()}/logs`;
+        console.error('[LogMiddleware] Failed to post log:', err.message, '→', url);
     }
 }
 

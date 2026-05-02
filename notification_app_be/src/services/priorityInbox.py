@@ -35,7 +35,17 @@ def _load_env_files() -> None:
 
 _load_env_files()
 
-BASE_URL      = os.getenv("BASE_URL", "http://20.207.122.201/evaluation-service")
+
+def _normalize_evaluation_base_url(raw: str) -> str:
+    u = (raw or "").strip().rstrip("/") or "http://20.207.122.201/evaluation-service"
+    if not u.lower().endswith("/evaluation-service"):
+        return f"{u}/evaluation-service"
+    return u
+
+
+BASE_URL = _normalize_evaluation_base_url(
+    os.getenv("BASE_URL", "http://20.207.122.201/evaluation-service")
+)
 CLIENT_ID     = os.getenv("CLIENT_ID")
 CLIENT_SECRET = os.getenv("CLIENT_SECRET")
 EMAIL         = os.getenv("EMAIL")

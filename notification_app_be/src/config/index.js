@@ -7,6 +7,15 @@ function env(name, fallback) {
     return v === undefined || v === '' ? fallback : v;
 }
 
+/** Ensure URL ends with .../evaluation-service (fixes 404 on /logs when .env is host-only). */
+function normalizeEvaluationBaseUrl(input) {
+    let u = String(input || 'http://20.207.122.201/evaluation-service').trim().replace(/\/+$/, '');
+    if (!/\/evaluation-service$/i.test(u)) {
+        u = `${u}/evaluation-service`;
+    }
+    return u;
+}
+
 /** Strip whitespace and optional wrapping quotes from pasted JSON tokens */
 function normalizeAccessToken(raw) {
     if (raw == null) return undefined;
@@ -22,7 +31,7 @@ function normalizeAccessToken(raw) {
 
 module.exports = {
     port: parseInt(env('PORT', '3000'), 10),
-    baseUrl: env('BASE_URL', 'http://20.207.122.201/evaluation-service').trim(),
+    baseUrl: normalizeEvaluationBaseUrl(env('BASE_URL', 'http://20.207.122.201/evaluation-service')),
     /** If set, used for logging + API calls instead of POST /auth */
     accessToken: normalizeAccessToken(process.env.ACCESS_TOKEN),
     clientId: process.env.CLIENT_ID,
