@@ -18,8 +18,22 @@ import requests
 from datetime import datetime, timezone
 from dotenv import load_dotenv
 
-load_dotenv(Path(__file__).resolve().parent.parent.parent / ".env")
-load_dotenv(Path(__file__).resolve().parent.parent / ".env")
+
+def _load_env_files() -> None:
+    seen = set()
+    for base in (
+        Path(__file__).resolve().parent.parent.parent,
+        Path(__file__).resolve().parent.parent,
+        Path.cwd(),
+    ):
+        path = base / ".env"
+        key = str(path.resolve())
+        if path.is_file() and key not in seen:
+            load_dotenv(path, override=False)
+            seen.add(key)
+
+
+_load_env_files()
 
 BASE_URL      = os.getenv("BASE_URL", "http://20.207.122.201/evaluation-service")
 CLIENT_ID     = os.getenv("CLIENT_ID")
@@ -107,7 +121,8 @@ def main():
     ] if not v]
     if missing:
         print("Missing .env variables:", ", ".join(missing))
-        print("Set ACCESS_TOKEN in .env, or fill the listed keys from .env.example.")
+        print()
+        print("Fix: in repo root .env set BASE_URL and ACCESS_TOKEN (see .env.example).")
         sys.exit(1)
 
     try:

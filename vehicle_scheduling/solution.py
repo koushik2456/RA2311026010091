@@ -11,9 +11,23 @@ from pathlib import Path
 import requests
 from dotenv import load_dotenv
 
-# Load .env from repo root (parent of vehicle_scheduling/) or cwd
-load_dotenv(Path(__file__).resolve().parent.parent / ".env")
-load_dotenv(Path(__file__).resolve().parent / ".env")
+
+def _load_env_files() -> None:
+    """Load `.env` from repo root, this folder, then cwd (first wins per key)."""
+    seen = set()
+    for base in (
+        Path(__file__).resolve().parent.parent,
+        Path(__file__).resolve().parent,
+        Path.cwd(),
+    ):
+        path = base / ".env"
+        key = str(path.resolve())
+        if path.is_file() and key not in seen:
+            load_dotenv(path, override=False)
+            seen.add(key)
+
+
+_load_env_files()
 
 BASE_URL = os.getenv("BASE_URL", "http://20.207.122.201/evaluation-service")
 CLIENT_ID     = os.getenv("CLIENT_ID")
@@ -130,7 +144,12 @@ def main():
     missing = _missing_env()
     if missing:
         print("Missing environment variables:", ", ".join(missing))
-        print("Either set ACCESS_TOKEN in .env, or copy .env.example and fill those keys.")
+        print()
+        print("Fix: add to .env (repo root is best: RA2311026010091/.env):")
+        print("  BASE_URL=http://.../evaluation-service")
+        print("  ACCESS_TOKEN=<paste access_token only, no quotes>")
+        print()
+        print("(Or fill CLIENT_ID, CLIENT_SECRET, EMAIL, ROLL_NO, ACCESS_CODE instead.)")
         sys.exit(1)
 
     try:

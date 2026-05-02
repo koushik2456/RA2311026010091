@@ -21,9 +21,13 @@ This repository contains:
 2. **Node:** from `logging_middleware`, run `npm install`. From `notification_app_be`, run `npm install`.
 3. **Python:** `pip install -r requirements.txt`
 
+## `.env` location
+
+Put **`.env` next to `README.md`** (repository root). You can also use `vehicle_scheduling/.env` or the folder you run Python from; the scripts load those in order and merge keys.
+
 ## Run
 
-- Vehicle scheduler: `cd vehicle_scheduling && python solution.py`
+- Vehicle scheduler: `cd vehicle_scheduling && python solution.py` (or `python vehicle_scheduling/solution.py` from the repo root)
 - Notification API: `cd notification_app_be && npm start`
 - Priority inbox (Python): `cd notification_app_be/src/services && python priorityInbox.py`
 
