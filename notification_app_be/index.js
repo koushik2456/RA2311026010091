@@ -10,6 +10,7 @@ const { getEvaluationToken } = require('./src/utils/evalAuth');
 const { studentAuth } = require('./src/middleware/auth');
 const { errorHandler } = require('./src/middleware/errorHandler');
 const notificationsRouter = require('./src/routes/notifications');
+const vehicleScheduleRouter = require('./src/routes/vehicleSchedule');
 
 const app = express();
 app.use(express.json());
@@ -19,6 +20,9 @@ app.get('/health', (req, res) => {
 });
 
 app.use('/api/notifications', studentAuth, notificationsRouter);
+
+/** Fetches /depots + /vehicles from evaluation server, runs knapsack, returns JSON (uses server .env token). */
+app.use('/api/vehicle-schedule', vehicleScheduleRouter);
 
 app.use(errorHandler);
 

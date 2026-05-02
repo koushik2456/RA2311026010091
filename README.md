@@ -31,4 +31,12 @@ Put **`.env` next to `README.md`** (repository root). You can also use `vehicle_
 - Notification API: `cd notification_app_be && npm start`
 - Priority inbox (Python): `cd notification_app_be/src/services && python priorityInbox.py`
 
+### HTTP: vehicle schedule (Node)
+
+With the server running and `.env` containing **`BASE_URL`** + **`ACCESS_TOKEN`**:
+
+`GET http://localhost:3000/api/vehicle-schedule`
+
+The server calls the evaluation service (`/depots`, `/vehicles`), runs the same knapsack logic as `vehicle_scheduling/solution.py`, and returns JSON (`ok`, `depotCount`, `vehicleCount`, `results` per depot). No `Authorization` header is required on this route; the token stays on the server.
+
 
