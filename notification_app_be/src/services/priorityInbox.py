@@ -107,7 +107,7 @@ def main():
     ] if not v]
     if missing:
         print("Missing .env variables:", ", ".join(missing))
-        print("Copy .env.example to .env at the repo root and fill registration values.")
+        print("Set ACCESS_TOKEN in .env, or fill the listed keys from .env.example.")
         sys.exit(1)
 
     try:

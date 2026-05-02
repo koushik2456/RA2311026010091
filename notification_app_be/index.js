@@ -67,7 +67,7 @@ async function start() {
     } catch (e) {
         process.stderr.write(
             `[startup] Could not obtain evaluation token (${e.message}). ` +
-                'Log() calls will fail until CLIENT_ID, CLIENT_SECRET, EMAIL, ROLL_NO, ACCESS_CODE are set in .env.\n'
+                'Set ACCESS_TOKEN in .env, or set CLIENT_ID, CLIENT_SECRET, EMAIL, ROLL_NO, ACCESS_CODE for /auth.\n'
         );
     }
 

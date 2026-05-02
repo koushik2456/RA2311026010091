@@ -17,7 +17,7 @@ This repository contains:
 
 ## Setup
 
-1. Copy `.env.example` to `.env` at the repository root. Either set **`ACCESS_TOKEN`** to the long `access_token` string from a successful auth response, or fill **`CLIENT_ID`**, **`CLIENT_SECRET`**, **`EMAIL`**, **`ROLL_NO`**, and **`ACCESS_CODE`** so the scripts can call `/auth` themselves. Set **`BASE_URL`** to the evaluation service root that matches your token (the JWT `aud` claim should match this host).
+1. Copy `.env.example` to `.env` at the repository root. Set **`BASE_URL`** and **`ACCESS_TOKEN`** (the long `access_token` value only). Client ID, secret, email, roll number, and access code are **not** required when `ACCESS_TOKEN` is set.
 2. **Node:** from `logging_middleware`, run `npm install`. From `notification_app_be`, run `npm install`.
 3. **Python:** `pip install -r requirements.txt`
 

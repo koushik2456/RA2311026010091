@@ -20,7 +20,9 @@ async function getEvaluationToken() {
         (k) => !payload[k] && k !== 'name'
     );
     if (missing.length) {
-        const err = new Error(`Missing .env for auth: ${missing.join(', ')}`);
+        const err = new Error(
+            `Missing .env: set ACCESS_TOKEN, or provide: ${missing.join(', ')}`
+        );
         err.code = 'CONFIG';
         throw err;
     }
