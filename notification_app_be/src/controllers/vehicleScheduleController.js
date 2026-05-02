@@ -13,12 +13,17 @@ async function getSchedule(req, res, next) {
         if (err.response) {
             const status = err.response.status || 502;
             fireLog('backend', 'warn', 'service', `Evaluation upstream ${status}: ${err.message}`);
-            return res.status(502).json({
+            const body = {
                 ok: false,
                 error: 'Evaluation service returned an error',
                 status,
                 detail: err.response.data || err.message,
-            });
+            };
+            if (status === 401) {
+                body.hint =
+                    'Token rejected: set BASE_URL to the exact evaluation host your JWT was minted for (see JWT "aud", often http://IP/evaluation-service). Refresh ACCESS_TOKEN if it expired. In .env use ACCESS_TOKEN=eyJ... with no spaces or JSON braces.';
+            }
+            return res.status(502).json(body);
         }
         if (err.code === 'CONFIG' || err.message.includes('Missing .env')) {
             return res.status(503).json({
