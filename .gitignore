@@ -1,6 +1,8 @@
 node_modules/
 .env
 *.log
+__pycache__/
+*.py[cod]
 
 # Local implementation guide (keep out of public remote if desired)
 AGENT_INSTRUCTIONS.md

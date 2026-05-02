@@ -277,9 +277,9 @@ Invalidation: On new notification insert or is_read update for that student
 
 ---
 
-### Solution 2: Pagination (Offset/Cursor)
+### Solution 2: Pagination (offset / keyset)
 
-**Strategy:** Never load all notifications; load 20 at a time via cursor pagination.
+**Strategy:** Never load all notifications; load 20 at a time via keyset pagination.
 
 ```sql
 SELECT id, type, message, is_read, created_at
@@ -309,7 +309,7 @@ LIMIT 20;
 
 ### Recommended Combination
 1. Redis cache for the full notification list (TTL 60s, invalidate on write)
-2. Cursor pagination to limit response size to 20 items
+2. Keyset pagination to limit response size to 20 items
 3. WebSocket push to instantly update badge without a fresh API call
 
 ---
