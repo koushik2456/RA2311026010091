@@ -27,9 +27,4 @@ This repository contains:
 - Notification API: `cd notification_app_be && npm start`
 - Priority inbox (Python): `cd notification_app_be/src/services && python priorityInbox.py`
 
-Use port `3000` by default for the API unless `PORT` is set in `.env`.
 
-## Notes
-
-- Do not commit `.env` or `node_modules/`.
-- Capture terminal output screenshots into the `screenshots/` folders where applicable.
