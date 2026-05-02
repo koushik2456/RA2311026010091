@@ -1,0 +1,15 @@
+# Optional: deploy to https://render.com (free tier) — connect this GitHub repo, then Render reads this file.
+# In the Render dashboard, add environment variables: BASE_URL, ACCESS_TOKEN, PORT (Render sets PORT automatically).
+
+version: "1"
+services:
+  - type: web
+    name: evaluation-backend
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm install --prefix logging_middleware && npm install --prefix notification_app_be
+    startCommand: cd notification_app_be && node index.js
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
