@@ -1,11 +1,11 @@
+// Load .env before logging-middleware (it posts to BASE_URL from process.env).
+const config = require('./src/config');
 const http = require('http');
 const path = require('path');
 const express = require('express');
 const { Server } = require('socket.io');
 const { setAuthToken } = require('logging-middleware');
 const { fireLog } = require('./src/utils/fireLog');
-
-const config = require('./src/config');
 const { getEvaluationToken } = require('./src/utils/evalAuth');
 const { studentAuth } = require('./src/middleware/auth');
 const { errorHandler } = require('./src/middleware/errorHandler');

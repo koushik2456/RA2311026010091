@@ -6,7 +6,11 @@
 
 const axios = require('axios');
 
-const BASE_URL = process.env.BASE_URL || 'http://20.207.122.201/evaluation-service';
+/** Read each call so .env is loaded before first Log() (lazy, not at require() time). */
+function evaluationBaseUrl() {
+    const u = (process.env.BASE_URL || 'http://20.207.122.201/evaluation-service').trim();
+    return u.replace(/\/$/, '');
+}
 
 // Valid enums — enforced at call time
 const VALID_STACK   = ['backend', 'frontend'];
@@ -46,7 +50,7 @@ async function Log(stack, level, pkg, message) {
 
     try {
         const response = await axios.post(
-            `${BASE_URL}/logs`,
+            `${evaluationBaseUrl()}/logs`,
             { stack, level, package: pkg, message },
             { headers: { Authorization: `Bearer ${authToken}` } }
         );
